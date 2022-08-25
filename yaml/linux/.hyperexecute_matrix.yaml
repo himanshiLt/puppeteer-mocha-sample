@@ -1,0 +1,23 @@
+---
+version: '0.1'
+globalTimeout: 90
+testSuiteTimeout: 90
+testSuiteStep: 90
+matrix:
+  os: [linux]
+  files: ["specs/google.spec.js","specs/lt.spec.js"]
+runson: ${matrix.os}
+pre:
+  - npm install
+cacheKey: '{{ checksum "package-lock.json" }}'
+cacheDirectories:
+  - node_modules
+testSuites:
+  - npm test -- $files
+mergeArtifacts: true
+
+uploadArtefacts:
+  [{
+    "name": "Reports",
+    "path": ["Reports\\"]
+  }]
